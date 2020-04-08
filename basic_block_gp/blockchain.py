@@ -80,7 +80,7 @@ class Blockchain(object):
     def last_block(self):
         return self.chain[-1]
 
-    def proof_of_work(self, block):
+    def proof_of_work(self):
         """
         Simple Proof of Work Algorithm
         Stringify the block and look for a proof.
@@ -88,9 +88,13 @@ class Blockchain(object):
         in an effort to find a number that is a valid proof
         :return: A valid proof for the provided block
         """
-        # TODO
-        pass
+        block_string = json.dumps(self.last_block, sort_keys=True)
+
+        proof = 0
+        while not self.valid_proof(block_string, proof):
+            proof += 1
         # return proof
+        return proof
 
     @staticmethod
     def valid_proof(block_string, proof):
@@ -104,9 +108,11 @@ class Blockchain(object):
         correct number of leading zeroes.
         :return: True if the resulting hash is a valid proof, False otherwise
         """
-        # TODO
-        pass
+        guess = f"{block_string}{proof}".encode()
+
+        guess_hash = hashlib.sha256(guess).hexdigest()
         # return True or False
+        return guess_hash[:3] == "000"
 
 
 # Instantiate our Node
