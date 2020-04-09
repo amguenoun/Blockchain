@@ -78,4 +78,3 @@ if __name__ == '__main__':
             print(f'Total Coins Mined: {coins_mined}')
         else:
             print(data['message'])
-        pass
